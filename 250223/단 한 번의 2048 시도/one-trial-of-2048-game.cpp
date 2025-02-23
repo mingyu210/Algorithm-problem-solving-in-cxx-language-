@@ -24,6 +24,9 @@ void up(){
                 new_grid[idx++] = temp[j];
             }
         }
+        for (int j = 0; j < 4; j++) {
+            grid[j][i] = new_grid[j];  
+        }
         
     }
 }
