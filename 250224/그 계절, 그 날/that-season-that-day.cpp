@@ -9,7 +9,7 @@ int Y, M, D;
 bool Month(int a, int b, int c){
     if(a==2){
         if(c ==0){
-            if(c>29){
+            if(b>29){
                 return false;
             }
             else{
@@ -17,7 +17,7 @@ bool Month(int a, int b, int c){
             }
         }
         else if(c==1){
-            if(c>28){
+            if(b>28){
                 return false;
             }
             else{
