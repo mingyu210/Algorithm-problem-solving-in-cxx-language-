@@ -55,7 +55,7 @@ int main() {
                 dice[0] = dice[4];
                 dice[4] = dice[1];
                 dice[1] = dice[5];
-                dice[5] = dice[0];
+                dice[5] = temp;
                 grid[r][c] = dice[0];
             }
             
