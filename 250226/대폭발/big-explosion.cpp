@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cmath>
 
 using namespace std;
 
@@ -6,8 +7,9 @@ int n, m, r, c;
 int grid[101][101];
 int answer = 0;
 
-void bomb(int k){
+void bomb(int l){
     int temp[101][101];
+    int k = pow(2, l-1);
     for(int i=1; i<=n; i++){
         for(int j=1; j<=n; j++){
             if(grid[i][j] == 1){
