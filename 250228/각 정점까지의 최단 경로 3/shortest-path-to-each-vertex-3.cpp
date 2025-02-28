@@ -49,7 +49,12 @@ int main() {
     dijkstra();
 
     for(int i=2; i<=n; i++){
-        cout << dist[i] << endl;
+        if(dist[i] == INT_MAX){
+            cout << -1 << endl; 
+        }
+        else{
+             cout << dist[i] << endl;
+        }
     }
   
     
