@@ -1,6 +1,6 @@
 #include <iostream>
 #include <algorithm>
-#include <cmath>
+#include <climits>
 
 using namespace std;
 
@@ -13,7 +13,7 @@ bool visited[1000];
 
 void dijkstra(){
     for(int i=1; i<=n; i++){
-        dist[i] = 100000;
+        dist[i] = INT_MAX;
     }
     dist[1] = 0;
 
