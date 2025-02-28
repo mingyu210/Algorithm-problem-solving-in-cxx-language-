@@ -13,7 +13,7 @@ bool visited[1000];
 
 void dijkstra(){
     for(int i=1; i<=n; i++){
-        dist[i] = 10000;
+        dist[i] = 100000;
     }
     dist[1] = 0;
 
