@@ -27,6 +27,7 @@ void dijkstra(int a){
                 min_index = j;
             }
         }
+        if(min_index == -1) break;
         visited[min_index] = true;
 
         for(int j=1; j<=n; j++){
@@ -50,7 +51,11 @@ int main() {
     cin >> A >> B;
 
     dijkstra(A);
-    cout << dist[B];
+    if (dist[B] == INT_MAX) {
+        cout << "-1";  
+    } else {
+        cout << dist[B];
+    }
 
 
     
