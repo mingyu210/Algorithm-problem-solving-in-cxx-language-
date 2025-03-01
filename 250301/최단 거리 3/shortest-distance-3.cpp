@@ -11,7 +11,7 @@ int dist[1001];
 
 void dijkstra(int a){
     for(int i=1; i<=n; i++){
-        dist[i] = 1000001;
+        dist[i] = 10000001;
     }
     dist[a] = 0;
 
