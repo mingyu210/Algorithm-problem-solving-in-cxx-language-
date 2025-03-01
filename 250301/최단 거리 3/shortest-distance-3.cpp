@@ -1,4 +1,6 @@
 #include <iostream>
+#include <algorithm>
+#include <climits>
 
 using namespace std;
 
@@ -11,7 +13,7 @@ int dist[1001];
 
 void dijkstra(int a){
     for(int i=1; i<=n; i++){
-        dist[i] = 10000001;
+        dist[i] = INT_MAX;
     }
     dist[a] = 0;
 
