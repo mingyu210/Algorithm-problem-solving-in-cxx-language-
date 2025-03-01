@@ -1,5 +1,6 @@
 #include <iostream>
-#include <climits>  
+#include <algorithm>
+#include <climits>
 
 using namespace std;
 
@@ -11,32 +12,29 @@ bool visited[1001];
 int dist[1001];
 
 void dijkstra(int a){
-
-    for(int i = 1; i <= n; i++){
-        visited[i] = false;
-        dist[i] = INT_MAX;  
+    for(int i=1; i<=n; i++){
+        dist[i] = INT_MAX;
     }
     dist[a] = 0;
 
-    for(int i = 1; i <= n; i++){
+    for(int i=1; i<=n; i++){
         int min_index = -1;
-
-
-        for(int j = 1; j <= n; j++){
-            if(!visited[j] && (min_index == -1 || dist[j] < dist[min_index])){
+        for(int j=1; j<=n; j++){
+            if(visited[j]){
+                continue;
+            }
+            if(min_index == -1 || dist[min_index] > dist[j]){
                 min_index = j;
             }
         }
-
-     
         if(min_index == -1) break;
         visited[min_index] = true;
 
-  
-        for(int j = 1; j <= n; j++){
-            if(graph[min_index][j] > 0){  
-                dist[j] = min(dist[j], dist[min_index] + graph[min_index][j]);
+        for(int j=1; j<=n; j++){
+            if(graph[min_index][j] == 0){
+                continue;
             }
+            dist[j] = min(dist[j] , dist[min_index] + graph[min_index][j]);
         }
     }
 }
@@ -44,28 +42,31 @@ void dijkstra(int a){
 int main() {
     cin >> n >> m;
 
-
-    for(int i = 1; i <= n; i++){
-        for(int j = 1; j <= n; j++){
-            graph[i][j] = 0; 
-        }
-    }
-
     for (int i = 0; i < m; i++) {
         cin >> from[i] >> to[i] >> weight[i];
-        graph[from[i]][to[i]] = weight[i];
-        graph[to[i]][from[i]] = weight[i];
+        if(graph[from[i]][to[i]] != 0 && graph[from[i]][to[i]] > weight[i]){
+            graph[from[i]][to[i]] = weight[i];
+            graph[to[i]][from[i]] = weight[i];
+        }
+        else if(graph[from[i]][to[i]] == 0){
+            graph[from[i]][to[i]] = weight[i];
+            graph[to[i]][from[i]] = weight[i];
+        }
+        
+        
     }
 
     cin >> A >> B;
 
     dijkstra(A);
-
     if (dist[B] == INT_MAX) {
         cout << "-1";  
     } else {
         cout << dist[B];
     }
+
+
+    
 
     return 0;
 }
