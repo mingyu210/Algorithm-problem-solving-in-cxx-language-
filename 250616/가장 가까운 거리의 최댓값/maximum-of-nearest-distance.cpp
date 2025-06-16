@@ -2,64 +2,68 @@
 #include <vector>
 #include <queue>
 #include <algorithm>
+#include <limits>
 
 using namespace std;
 
-const int INF = 1e9;
+const int INF = numeric_limits<int>::max();
+int N, M, A, B, C;
 
-int n, m;
-int a, b, c;
-vector<pair<int, int>> graph[10001];
-int distA[10001], distB[10001], distC[10001];
+vector<vector<pair<int, int>>> graph;
 
-void dijkstra(int source, int dist[]) {
-    for (int i = 1; i <= n; i++) {
-        dist[i] = INF;
-    }
-    dist[source] = 0;
-
+// 다익스트라: 시작점에서 모든 정점까지 최단거리 계산
+vector<int> dijkstra(int start) {
+    vector<int> dist(N + 1, INF);
     priority_queue<pair<int, int>, vector<pair<int, int>>, greater<>> pq;
-    pq.push({0, source});
+
+    dist[start] = 0;
+    pq.push({0, start});
 
     while (!pq.empty()) {
-        int cost = pq.top().first;
-        int now = pq.top().second;
+        auto [curDist, u] = pq.top();
         pq.pop();
 
-        if (dist[now] < cost) continue;
+        if (curDist > dist[u]) continue;
 
-        for (auto [next, weight] : graph[now]) {
-            if (dist[next] > dist[now] + weight) {
-                dist[next] = dist[now] + weight;
-                pq.push({dist[next], next});
+        for (auto [v, cost] : graph[u]) {
+            if (dist[v] > dist[u] + cost) {
+                dist[v] = dist[u] + cost;
+                pq.push({dist[v], v});
             }
         }
     }
+
+    return dist;
 }
 
 int main() {
-    cin >> n >> m;
-    cin >> a >> b >> c;
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
 
-    for (int i = 0; i < m; i++) {
-        int u, v, t;
-        cin >> u >> v >> t;
-        graph[u].push_back({v, t});
-        graph[v].push_back({u, t});
+    cin >> N >> M;
+    cin >> A >> B >> C;
+
+    graph.resize(N + 1);
+
+    for (int i = 0; i < M; ++i) {
+        int u, v, w;
+        cin >> u >> v >> w;
+        graph[u].emplace_back(v, w);
+        graph[v].emplace_back(u, w); // 무방향
     }
 
-    dijkstra(a, distA);
-    dijkstra(b, distB);
-    dijkstra(c, distC);
+    // A, B, C 각각에서의 최단 거리 계산
+    vector<int> distA = dijkstra(A);
+    vector<int> distB = dijkstra(B);
+    vector<int> distC = dijkstra(C);
 
     int answer = 0;
-    for (int i = 1; i <= n; i++) {
-        int minAnswer = min({distA[i], distB[i], distC[i]});
-        if (minAnswer != INF && answer < minAnswer) {
-            answer = minAnswer;
-        }
+
+    for (int i = 1; i <= N; ++i) {
+        int minDist = min({distA[i], distB[i], distC[i]});
+        answer = max(answer, minDist);
     }
 
-    cout << answer;
+    cout << answer << '\n';
     return 0;
 }
