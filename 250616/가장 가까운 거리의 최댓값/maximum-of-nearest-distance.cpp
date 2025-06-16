@@ -62,7 +62,7 @@ int main() {
     dijkstra(b,distB,visitedB);
     dijkstra(c,distC,visitedC);
 
-    for(int i=1; i<n; i++){
+    for(int i=1; i<=n; i++){
        int minAnswer = min(min(distA[i], distB[i]), distC[i]); 
        if(minAnswer !=0 && answer < minAnswer){
         answer = minAnswer;
