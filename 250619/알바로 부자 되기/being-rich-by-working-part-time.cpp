@@ -1,12 +1,13 @@
 #include <iostream>
 #include <algorithm>
 #include <vector>
+#include <map>
 
 using namespace std;
 
 int N;
 vector<tuple<int,int,int>> arr;
-int dp[1001];
+map<int,int> dp;
 int answer;
 
 int main() {
@@ -17,14 +18,22 @@ int main() {
         cin >> a >> b >> c;
         arr.push_back({b,a,c});
     }
-    dp[0] = 0;
     for(int i=0; i<N; i++){
-            dp[get<0>(arr[i])] = max(dp[get<1>(arr[i])-1] + get<2>(arr[i]), dp[get<0>(arr[i])]);
+        int end = get<0>(arr[i]);
+        int start = get<1>(arr[i]);
+        int cost = get<2>(arr[i]);
+        
+        auto it = dp.upper_bound(start);
+        if(it != dp.begin() && it->first==start){
+            it--;
+        }
+        int preMax = (it == dp.end() || it->first > start) ? 0 : it->second;
+        dp[end] = max(dp[end], preMax + cost);
+        answer = max(answer,dp[end]);
+
     }
 
-    for(auto ass : arr){
-        answer = max(answer, dp[get<0>(ass)]);
-    }
+    
     cout << answer;
     
 
