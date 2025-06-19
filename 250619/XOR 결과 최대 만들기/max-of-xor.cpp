@@ -5,14 +5,13 @@ using namespace std;
 int n, m;
 int A[20];
 int answer[20];
-bool visited[20];
 int answer2 = 0;
 
 
 
 
 
-void backTracking(int num){
+void backTracking(int idx, int num){
     if(num == m){
         int result = answer[0];
         for(int i=1; i<m; i++){
@@ -23,13 +22,10 @@ void backTracking(int num){
         }
     }
     else{
-        for(int i=0; i<n; i++){
-        if(!visited[i]){
-            visited[i] = true;
-            answer[num] = A[i];
-        }
-        backTracking(num+1);
-        visited[i] = false;
+        for(int i=idx; i<n; i++){
+        answer[num] = A[i];
+        backTracking(i+1,num+1);
+        
     }
     }
    
@@ -41,7 +37,7 @@ int main() {
         cin >> A[i];
     }
 
-    backTracking(0);
+    backTracking(0,0);
     cout << answer2;
     
 
