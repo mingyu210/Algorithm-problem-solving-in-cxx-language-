@@ -25,6 +25,7 @@ void backTracking(int num){
     else{
         for(int i=0; i<n; i++){
         if(!visited[i]){
+            visited[i] = true;
             answer[num] = A[i];
         }
         backTracking(num+1);
