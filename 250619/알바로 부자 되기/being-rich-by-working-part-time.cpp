@@ -24,10 +24,13 @@ int main() {
         int cost = get<2>(arr[i]);
         
         auto it = dp.upper_bound(start);
-        if(it != dp.begin() && it->first==start){
+        if(it != dp.begin()){
             it--;
         }
-        int preMax = (it == dp.end() || it->first > start) ? 0 : it->second;
+        if(it->first == start){
+            it--;
+        }
+        int preMax = (it->first >= start) ? 0 : it->second;
         dp[end] = max(dp[end], preMax + cost);
         answer = max(answer,dp[end]);
 
