@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <tuple>
 #include <algorithm>
 #include <queue>
 #include <cstring>
@@ -25,8 +26,7 @@ int bfs(pair<int,int> first, pair<int,int> second){
     dist[first.first][first.second] = 0;
 
     while(!q.empty()){
-        auto [x,y] = q.front();
-        q.pop();
+        auto [x,y] = q.front(); q.pop();
 
         for(int dir = 0; dir<4; dir++){
             int nx = x+dx[dir];
@@ -36,7 +36,7 @@ int bfs(pair<int,int> first, pair<int,int> second){
                 if(nx == second.first && ny == second.second){
                     return dist[x][y] + 1;
                 }
-                else if (grid[nx][ny] == '.'){ // 이동 가능한 조건
+                else if (grid[nx][ny] != '#'){ // 이동 가능한 곳
                     dist[nx][ny] = dist[x][y] + 1;
                     q.push({nx, ny});
                 }
@@ -44,7 +44,6 @@ int bfs(pair<int,int> first, pair<int,int> second){
         }
     }
 
-    return 10000; // 도달 불가능한 경우
 }
 
 void backTracking(int start2, int num){
@@ -58,7 +57,7 @@ void backTracking(int start2, int num){
                 minianswer += bfs(coinBoard[arr[i-1]], coinBoard[arr[i]]);
             }
         }
-        minianswer += bfs(coinBoard[arr[2]], destination); // 마지막 코인 → 도착
+        minianswer += bfs(coinBoard[arr[2]], destination);
 
         if(answer > minianswer){
             answer = minianswer;
@@ -68,7 +67,7 @@ void backTracking(int start2, int num){
 
     for(int i = start2; i < (int)coinBoard.size(); i++){
         arr.push_back(i);
-        backTracking(i + 1, num + 1); // 여기 중요!!!
+        backTracking(i + 1, num + 1);
         arr.pop_back();
     }
 }
@@ -76,11 +75,13 @@ void backTracking(int start2, int num){
 int main() {
     cin >> N;
 
+    vector<tuple<int,int,int>> coins; // {value, x, y}
+
     for (int i = 0; i < N; i++){
         for (int j = 0; j < N; j++) {
             cin >> grid[i][j];
             if(grid[i][j] >= '1' && grid[i][j] <= '9'){
-                coinBoard.push_back({i, j});
+                coins.push_back({grid[i][j] - '0', i, j});
             }
             if(grid[i][j] == 'S'){
                 start = {i,j};
@@ -91,10 +92,11 @@ int main() {
         }
     }
 
+    sort(coins.begin(), coins.end()); // 코인 번호 기준 정렬
 
-    sort(coinBoard.begin(), coinBoard.end(), [](const pair<int,int>& a, const pair<int,int>& b){
-        return grid[a.first][a.second] < grid[b.first][b.second];
-    });
+    for (auto [val, x, y] : coins) {
+        coinBoard.push_back({x, y});
+    }
 
     backTracking(0, 0);
     cout << (answer == 10000 ? -1 : answer) << '\n';
