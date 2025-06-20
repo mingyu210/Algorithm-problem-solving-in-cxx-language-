@@ -36,7 +36,7 @@ int bfs(pair<int,int> first, pair<int,int> second){
                 if(nx == second.first && ny == second.second){
                     return dist[x][y] + 1;
                 }
-                else if (grid[nx][ny] != '#'){ // 이동 가능한 곳
+                else if (grid[nx][ny] == '.'){ // 이동 가능한 곳
                     dist[nx][ny] = dist[x][y] + 1;
                     q.push({nx, ny});
                 }
