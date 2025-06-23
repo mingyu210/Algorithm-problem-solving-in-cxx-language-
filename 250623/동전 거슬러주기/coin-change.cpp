@@ -36,7 +36,13 @@ int main() {
             }
         }
     }
-    cout << dp[M];
+    if(dp[M] == INT_MIN){
+        cout << -1;
+    }
+    else{
+        cout << dp[M];
+    }
+    
     
 
     return 0;
