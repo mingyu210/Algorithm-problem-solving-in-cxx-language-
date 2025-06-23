@@ -23,12 +23,15 @@ int main() {
     for(int i=1; i<=M; i++){
         for(int j=0; j<N; j++){
             if(i >= coin[j]){
-                if(dp[i] == INT_MIN){
-                    dp[i] =dp[i-coin[j]] + 1; 
+                if(dp[i-coin[j]] != INT_MIN){
+                    if(dp[i] == INT_MIN){
+                        dp[i] =dp[i-coin[j]] + 1; 
+                    }
+                    else{
+                        dp[i] = min(dp[i-coin[j]] + 1, dp[i]);
+                    }
                 }
-                else{
-                    dp[i] = min(dp[i-coin[j]] + 1, dp[i]);
-                }
+               
                 
             }
         }
