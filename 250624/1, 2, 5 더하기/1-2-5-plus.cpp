@@ -15,11 +15,11 @@ int main() {
     dp[5] = 9;
     
     for(int i=6; i<=n; i++){
-        dp[i] = dp[i-1] + dp[i-2] + dp[i-5];
+        dp[i] = (dp[i-1] + dp[i-2] + dp[i-5])%10007;
     }
 
-    cout << dp[n];
     
+    cout << dp[n];
 
     return 0;
 }
