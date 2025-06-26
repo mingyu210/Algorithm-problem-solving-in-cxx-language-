@@ -1,39 +1,26 @@
 #include <iostream>
-#include <vector>
 #include <climits>
 
 using namespace std;
 
 int n;
-int A[10][10];
+int A[11][11];
 bool visited[11];
-vector<int> answer;
 int realAnswer = INT_MAX;
 
-void backTracking(int start , int num){
-    if(num == n){
-        if(A[start][1] != 0){
-             int minAnswer = 0;
-            answer.push_back(A[start][1]);
-            for(auto ac: answer){
-                minAnswer += ac;
-            }
-            if(minAnswer < realAnswer){
-                realAnswer = minAnswer;
-            }
-            answer.pop_back();
+void backTracking(int now, int cnt, int cost) {
+    if (cnt == n) {
+        if (A[now][1] != 0) {  // 마지막 도시에서 1번으로 돌아갈 수 있을 때만
+            realAnswer = min(realAnswer, cost + A[now][1]);
         }
-       
+        return;
     }
-    else{
-        for(int i=1; i<=n; i++){
-            if(start != i && !visited[i] && A[start][i]!=0){
-                answer.push_back(A[start][i]);
-                visited[i] = true;
-                backTracking(i,num+1);
-                answer.pop_back();
-                visited[i] = false;
-            }
+
+    for (int next = 1; next <= n; next++) {
+        if (!visited[next] && A[now][next] != 0) {  // 갈 수 있는 도시
+            visited[next] = true;
+            backTracking(next, cnt + 1, cost + A[now][next]);
+            visited[next] = false;
         }
     }
 }
@@ -46,9 +33,11 @@ int main() {
             cin >> A[i][j];
         }
     }
+
     visited[1] = true;
-    backTracking(1,1);
-    cout << realAnswer;
+    backTracking(1, 1, 0);
+
+    cout << realAnswer << endl;
 
     return 0;
 }
