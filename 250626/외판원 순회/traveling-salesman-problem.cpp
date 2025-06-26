@@ -12,15 +12,18 @@ int realAnswer = INT_MAX;
 
 void backTracking(int start , int num){
     if(num == n){
-        int minAnswer = 0;
-        answer.push_back(A[start][1]);
-        for(auto ac: answer){
-            minAnswer += ac;
+        if(A[start][1] != 0){
+             int minAnswer = 0;
+            answer.push_back(A[start][1]);
+            for(auto ac: answer){
+                minAnswer += ac;
+            }
+            if(minAnswer < realAnswer){
+                realAnswer = minAnswer;
+            }
+            answer.pop_back();
         }
-        if(minAnswer < realAnswer){
-            realAnswer = minAnswer;
-        }
-        answer.pop_back();
+       
     }
     else{
         for(int i=1; i<=n; i++){
